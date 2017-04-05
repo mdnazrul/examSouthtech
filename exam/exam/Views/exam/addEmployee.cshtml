@@ -1,0 +1,147 @@
+﻿@model exam.Models.Employee
+@{
+    ViewBag.Title = "addEmployee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    function AddEmployee() {
+        var FullName = $("#FullName").val();
+        var Gender = $("#Gender").val();
+        var Address = $("#Address").val();
+        if (
+            FullName == "" || Gender == "" || Address == ""               
+            ) {
+            alert("All * denoted field are required!");
+        }
+        else if (!isNaN(FullName) || !isNaN(Gender) || !isNaN(Address)) {
+            alert("Name, Gender & Address must input using letter!");
+        }
+        else {
+
+            var BasicInfo = {               
+                "FullName": FullName,         
+                "Gender": Gender,
+                "Address": Address,     
+            };
+            $.ajax({
+                type: "POST",
+                url: "../exam/addEmployee",
+                data: JSON.stringify(BasicInfo),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (data, textStatus, jqXHR) {
+                    $("#FullName").val("");
+                    $("#Gender").val("");
+                    $("#Address").val("");                                                        
+                    alert('Employee Information Added Successfully!');
+                },
+                error: function () {
+                    $("#FullName").val("");
+                    $("#Gender").val("");
+                    $("#Address").val("");
+                   
+                    alert('Employee Information Added Successfully!');
+                }
+            });
+        }
+    } 
+   </script>
+
+<div class="bre_title">
+  
+    <div class="row" style="border-bottom:1px solid #fff; margin-bottom:25px;">
+        <div class="col-sm-12">
+            <div class="pageTitle">
+                <h3 class="text-center">Employee Information</h3>
+            </div>
+        </div>
+        <div class="col-sm-11 col-sm-offset-1">
+            <div id="btn-group-styling">
+                <a class="btn btn-default" href="/exam/employeelist">Employee List</a>
+                <a class="btn btn-default" href="/exam/addEmployee">Add Employee</a>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("addEmployee", "exam", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return CheckUp()" }))
+{
+  
+             <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.LabelFor(s => s.FullName, " FullName ", new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-3">
+                                    @Html.TextBoxFor(u => u.FullName, new { id = "FullName", @class = "form-control", placeholder = "FullName" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(s => s.Gender, " Gender", new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-3">
+                                    <select name="gender" id="Gender" class="form-control" >
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                       
+                            <div class="form-group">
+                                @Html.LabelFor(s => s.Address, " Address", new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-3">
+                                    @Html.TextBoxFor(u => u.Address, new { id = "Address", @class = "form-control", placeholder = "Address" })
+                                </div>
+                            </div>                    
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-10">
+                                    <input type="button" name="save" value="Save" onclick="AddEmployee();" style="background: #555555 none repeat scroll 0 0; border-color: #fff #666666 #666666 #fff; border-style: solid; border-width: 2px; color: #fff;width:80px; ">                            
+                                </div>
+                            </div>                                             
+                        </div>
+                    </div>
+                </div>         
+}
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-datepicker.min.js")"> </script>
+<script>
+    $(document).ready(function () {
+        $('#BirthDate')
+            .datepicker({
+                format: 'yyyy-mm-dd'
+            })
+        $('#JoinDate')
+            .datepicker({
+                format: 'yyyy-mm-dd'
+            })
+        $('#PerDate')
+            .datepicker({
+                format: 'yyyy-mm-dd'
+            })
+        $('#RetireDate')
+            .datepicker({
+                format: 'yyyy-mm-dd'
+            })
+    });
+</script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#upfile')
+                    .attr('src', e.target.result).width(60).height(60);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+</script>*@
+
+
+
+
+

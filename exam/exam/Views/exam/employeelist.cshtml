@@ -1,0 +1,69 @@
+﻿
+@model IEnumerable<exam.Models.Employee>
+@{
+    ViewBag.Title = "employeelist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+<script>
+
+    function DeleteCourse(pid, that) {
+        if (confirm("Do you want to delete the Course: " + pid)) {
+            $.ajax({
+                type: "POST",
+                url: '/exam/DeleteEmployee',
+                data: { id: pid },
+                dataType: "json",
+                success: function () {
+                    alert('Deleted Successfully');
+                    location = location.href;
+                    location.reload();
+                }
+            });
+        }
+    }
+</script>
+<div>
+    <div class="row" style="border-bottom:1px solid #fff; margin-bottom:25px;">
+        <div class="col-sm-12">
+            <div class="pageTitle">
+                <h3 class="text-center">Employee Information</h3>
+            </div>
+        </div>
+        <div class="col-sm-11 col-sm-offset-1">
+            <div id="btn-group-styling">
+                <a class="btn btn-default" href="/exam/employeelist">Employee List</a>
+                <a class="btn btn-default" href="/exam/addEmployee">Add Employee</a>
+            </div>
+        </div>
+    </div>
+    <table style=" width:100%; padding-top:30px;">
+        <thead>
+            <tr>
+                <th class="number">FullName</th>
+                <th class="number">Gender</th>
+                <th class="number">Address</th>
+                <th class="number">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="number">@item.FullName</td>
+                    <td class="number">@item.Gender</td>
+                    <td class="number">@item.Address</td>
+                    <td>                    
+                        @Html.ActionLink("Edit", "EmployeeUpdate", new { id = item.EmpI, empGender = @item.Gender }, new { @class = "btn btn-info", @style = "color:white;padding: 4px 9px;" })
+                        @*@Html.ActionLink("Delete", "", new { id = item.EmpI }, new { @class = "btn btn-danger", @style = "color:white;padding: 4px 9px;" })*@
+                        <img src="~/Images/delete.png" alt="Delete" style="cursor:pointer" onclick="DeleteCourse(@item.EmpI)" />
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+

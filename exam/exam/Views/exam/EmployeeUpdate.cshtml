@@ -1,0 +1,73 @@
+﻿
+@model exam.Models.Employee
+@{
+    ViewBag.Title = "EmployeeUpdate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")"> </script>
+<script>
+            $(document).ready(function () {
+                var x = "@this.Request.QueryString["empGender"]";
+                $("#Gender option").each(function () {
+                    if ($(this).val() == x) {
+                        $(this).attr('selected', 'selected');
+                    }
+                });
+            });
+</script>
+
+<div>
+    <div class="row" style="border-bottom:1px solid #fff; margin-bottom:25px;">
+        <div class="col-sm-12">
+            <div class="pageTitle">
+                <h3 class="text-center">Employee Information</h3>
+            </div>
+        </div>
+        <div class="col-sm-11 col-sm-offset-1">
+            <div id="btn-group-styling">
+                <a class="btn btn-default" href="/exam/employeelist">Employee List</a>
+                <a class="btn btn-default" href="/exam/addEmployee">Add Employee</a>
+            </div>
+        </div>
+    </div>
+    <h4 style="color:#ff6a00">@ViewBag.Messages </h4>
+    @using (Html.BeginForm("EmployeeUpdate", "exam", FormMethod.Post))
+    {
+        <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.LabelFor(s => s.FullName, " FullName ", new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-3">
+                                    @Html.TextBoxFor(u => u.FullName, new { id = "FullName", @class = "form-control", placeholder = "FullName" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(s => s.Gender, " Gender", new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-3">
+                                    <select name="gender" id="Gender" class="form-control" >
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                            </div>                       
+                            <div class="form-group">
+                                @Html.LabelFor(s => s.Address, " Address", new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-3">
+                                    @Html.TextBoxFor(u => u.Address, new { id = "Address", @class = "form-control", placeholder = "Address" })
+                                </div>
+                            </div>                    
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-10">
+                                    <input style="width: 88px; margin-right: 5px; background-color: #1DB198;color:#ffffff" type="submit" class="btn" value="Update" />
+                                   @* <input style="width: 88px; margin-right: 5px; background-color: #1DB198;color:#ffffff" type="submit" class="btn" value="Save" onclick="AddEmployee()"/>*@                       
+                                </div>
+                            </div>                                             
+                        </div>
+                    </div>
+                </div>         
+    }
+</div>
+
